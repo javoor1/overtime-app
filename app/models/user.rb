@@ -11,4 +11,10 @@ class User < ActiveRecord::Base
 
   #Validations
   validates :first_name, :last_name, presence: true       
+
+  #custom methods
+  def full_name
+  	last_name.upcase + ", " + first_name.upcase
+  end
+
 end
