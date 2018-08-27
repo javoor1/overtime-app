@@ -35,6 +35,8 @@ gem 'bootstrap-sass'
 # gem 'capistrano-rails', group: :development
 gem 'devise'
 gem 'gritter'
+gem "administrate"
+gem 'bourbon'
 
 group :development, :test do
   gem 'byebug'
