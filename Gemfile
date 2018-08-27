@@ -34,6 +34,7 @@ gem 'bootstrap-sass'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem 'devise'
+gem 'gritter'
 
 group :development, :test do
   gem 'byebug'

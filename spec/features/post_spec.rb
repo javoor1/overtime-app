@@ -27,6 +27,13 @@ describe 'navigate' do
     end
   end
 
+  describe 'new' do
+    it 'has a link from he homepage to create post' do
+      visit root_path
+      click_link "new_post_from_nav"
+      expect(page.status_code).to eq(200)
+    end
+  end
 
   describe 'creation' do
     before do
@@ -70,10 +77,20 @@ describe 'navigate' do
       click_on "Save"
       expect(page).to have_content("Edited content")
     end
-
   end 
 
-end 
+  describe 'delete' do
+    before do
+      @post = FactoryGirl.create(:post)
+      visit posts_path
+    end
+
+    it 'can be deleted from index page' do
+      click_link("delete_post_#{@post.id}_from_index")
+      expect(page.status_code).to eq(200)
+    end
+  end
+end
 
 
 
