@@ -17,4 +17,5 @@ class User < ActiveRecord::Base
   	last_name.upcase + ", " + first_name.upcase
   end
 
+
 end
