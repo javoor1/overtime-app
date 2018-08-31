@@ -37,6 +37,7 @@ gem 'devise'
 gem 'gritter'
 gem "administrate"
 gem 'bourbon'
+gem 'pundit'
 
 group :development, :test do
   gem 'byebug'

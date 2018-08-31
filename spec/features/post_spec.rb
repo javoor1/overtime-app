@@ -61,7 +61,11 @@ describe 'navigate' do
 
   describe 'edit' do
     before do
-      @post = FactoryGirl.create(:post)
+      @post = FactoryGirl.create(:post) #este post está creando con el user definido en factories, o sea un regular user.
+      # puts "@post_id = #{@post.id}"
+      @admin_user = FactoryGirl.create(:admin_user)
+      # puts "@admin_user = #{@admin_user.id}"
+      login_as(@admin_user, scope: :user)
     end
       
     it 'edit link from post index page' do 
@@ -77,6 +81,18 @@ describe 'navigate' do
       click_on "Save"
       expect(page).to have_content("Edited content")
     end
+
+    # it 'can not be edited by a non-authorized user' do
+    #   logout(@admin_user)
+    #   non_authorized_user = FactoryGirl.create(:non_authorized_user)
+    #   puts "non_authorized_user_id = #{non_authorized_user.id}"
+    #   puts "@post.user_id #{@post.user_id}"
+    #   login_as(non_authorized_user, scope: :user)
+    #   visit posts_path
+    #   click_link "edit_#{@post.id}"
+    #   # expect(page.reload).to_not have_content("not allowed to edit?")
+    # end
+
   end 
 
   describe 'delete' do

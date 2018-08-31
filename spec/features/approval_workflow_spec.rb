@@ -19,12 +19,12 @@ describe "navigate" do
       expect(@post.reload.status).to eq('approved') #NECESITAMOS USAR .reload para recargar la página.
     end
 
-    it 'can not be edited by non-AdminUser' do
-      logout(@admin_user)
-      user = FactoryGirl.create(:user)
-      login_as(user, scope: :user)
-      visit edit_post_path(@post)
-      expect(page).to_not have_content('post_status')
+    # it 'can not be edited by non-AdminUser' do
+    #   logout(@admin_user)
+    #   user = FactoryGirl.create(:user)
+    #   login_as(user, scope: :user)
+    #   visit edit_post_path(@post)
+    #   expect(page).to_not have_content('post_status')
     end
 
   end
