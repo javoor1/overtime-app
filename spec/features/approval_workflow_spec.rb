@@ -1,31 +1,41 @@
 require 'rails_helper'
 
-
-describe "navigate" do
-  before do 
+describe 'navigate' do
+  before do
     @admin_user = FactoryGirl.create(:admin_user)
-    login_as(@admin_user, scope: :user)
+    login_as(@admin_user, :scope => :user)
   end
 
-  describe "edit" do
+  describe 'edit' do
     before do
       @post = FactoryGirl.create(:post)
+      visit edit_post_path(@post)
     end
 
-    it 'has a status that can be edited by an Admin' do
-      visit edit_post_path(@post)
+    it 'has a status that can be edited on the form by an admin' do
       choose('post_status_approved')
-      click_on("Save")
-      expect(@post.reload.status).to eq('approved') #NECESITAMOS USAR .reload para recargar la página.
+      click_on "Save"
+
+      expect(@post.reload.status).to eq('approved') #usar reload para recargarla página
     end
 
-    xit 'can not be edited by non-AdminUser' do
-      logout(@admin_user)
-      user = FactoryGirl.create(:user)
-      login_as(user, scope: :user)
+    it 'cannot be edited by a non admin' do
+      logout(:user)
+      @user = FactoryGirl.create(:user)
+      login_as(@user, :scope => :user)
+
       visit edit_post_path(@post)
-      expect(page).to_not have_content('post_status')
+
+      expect(page).to_not have_content('Approved')
     end
 
+    it 'cannot be editedby creator if post is approved' do
+      logout(@user)
+      @user = FactoryGirl.create(:user)
+      login_as(@user, scope: :user)
+      @post.update(user_id: @user.id, status: "approved")
+      visit edit_post_path(@post)
+      expect(current_path). to eq(root_path)
+    end
   end
 end

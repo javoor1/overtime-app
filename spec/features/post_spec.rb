@@ -1,16 +1,18 @@
 require 'rails_helper'
 
 describe 'navigate' do
+  let(:user) { FactoryGirl.create(:user) }
+
+  let(:post) do
+    Post.create(date: Date.today, rationale: "Rationale", user_id: user.id)
+  end
+
   before do
-    @user = FactoryGirl.create(:user)
-    login_as(@user, :scope => :user)
-    
+    login_as(user, :scope => :user)
   end
 
   describe 'index' do
     before do
-      @post = FactoryGirl.create(:post)
-      @second_post = FactoryGirl.create(:second_post)
       visit posts_path
     end
 
@@ -23,23 +25,43 @@ describe 'navigate' do
     end
 
     it 'has a list of posts' do
+      post1 = FactoryGirl.build_stubbed(:post)
+      post2 = FactoryGirl.build_stubbed(:second_post)
+      visit posts_path
       expect(page).to have_content(/Rationale|content/)
     end
 
-    it 'only post creator can see the post' do
-      post1 = Post.create(date: Date.today, rationale: "asdf", user_id: @user.id)
-      post2 = Post.create(date: Date.today, rationale: "asdf", user_id: @user.id)
+    it 'has a scope so that only post creators can see their posts' do
       other_user = User.create(first_name: 'Non', last_name: 'Authorized', email: "nonauth@example.com", password: "asdfasdf", password_confirmation: "asdfasdf")
       post_from_other_user = Post.create(date: Date.today, rationale: "This post shouldn't be seen", user_id: other_user.id)
+
       visit posts_path
+
       expect(page).to_not have_content(/This post shouldn't be seen/)
     end
   end
 
   describe 'new' do
-    it 'has a link from he homepage to create post' do
+    it 'has a link from the homepage' do
       visit root_path
-      click_link "new_post_from_nav"
+
+      click_link("new_post_from_nav")
+      expect(page.status_code).to eq(200)
+    end
+  end
+
+  describe 'delete' do
+    it 'can be deleted' do
+      logout(:user)
+
+      delete_user = FactoryGirl.create(:user)
+      login_as(delete_user, :scope => :user)
+
+      post_to_delete = Post.create(date: Date.today, rationale: 'asdf', user_id: delete_user.id)
+
+      visit posts_path
+
+      click_link("delete_post_#{post_to_delete.id}_from_index")
       expect(page.status_code).to eq(200)
     end
   end
@@ -57,6 +79,7 @@ describe 'navigate' do
       fill_in 'post[date]', with: Date.today
       fill_in 'post[rationale]', with: "Some rationale"
       click_on "Save"
+
       expect(page).to have_content("Some rationale")
     end
 
@@ -64,77 +87,30 @@ describe 'navigate' do
       fill_in 'post[date]', with: Date.today
       fill_in 'post[rationale]', with: "User Association"
       click_on "Save"
+
       expect(User.last.posts.last.rationale).to eq("User Association")
-    end   
+    end
   end
 
   describe 'edit' do
-    before do
-      @post = FactoryGirl.create(:post) #este post está creando con el user definido en factories, o sea un regular user.
-      # puts "@post_id = #{@post.id}"
-      @admin_user = FactoryGirl.create(:admin_user)
-      @post.update(user_id: @admin_user.id)
-      # puts "@admin_user = #{@admin_user.id}"
-      login_as(@admin_user, scope: :user)
-    end
-      
-    it 'edit link from post index page' do 
-      visit posts_path
-      click_link "edit_#{@post.id}"
-      expect(page.status_code).to eq(200)
-    end 
-
     it 'can be edited' do
-      visit edit_post_path(@post)
+      visit edit_post_path(post)
+
       fill_in 'post[date]', with: Date.today
       fill_in 'post[rationale]', with: "Edited content"
       click_on "Save"
+
       expect(page).to have_content("Edited content")
     end
 
-    # it 'can not be edited by a non-authorized user' do
-    #   logout(@admin_user)
-    #   non_authorized_user = FactoryGirl.create(:non_authorized_user)
-    #   puts "non_authorized_user_id = #{non_authorized_user.id}"
-    #   puts "@post.user_id #{@post.user_id}"
-    #   login_as(non_authorized_user, scope: :user)
-    #   visit posts_path
-    #   click_link "edit_#{@post.id}"
-    #   # expect(page.reload).to_not have_content("not allowed to edit?")
-    # end
+    it 'cannot be edited by a non authorized user' do
+      logout(:user)
+      non_authorized_user = FactoryGirl.create(:non_authorized_user)
+      login_as(non_authorized_user, :scope => :user)
 
-  end 
+      visit edit_post_path(post)
 
-  describe 'delete' do
-    before do
-      @admin_user = FactoryGirl.create(:admin_user)
-      login_as(@admin_user, scope: :user)
-      @post = FactoryGirl.create(:post)
-      @post.update(user_id: @user.id)
-      visit posts_path
-    end
-
-    xit 'can be deleted from index page' do
-      click_link("delete_post_#{@post.id}_from_index")
-      expect(page.status_code).to eq(200)
+      expect(current_path).to eq(root_path)
     end
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
