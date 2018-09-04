@@ -38,6 +38,7 @@ gem 'gritter'
 gem "administrate"
 gem 'bourbon'
 gem 'pundit'
+gem 'puma'
 
 group :development, :test do
   gem 'byebug'
