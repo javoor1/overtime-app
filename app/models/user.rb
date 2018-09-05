@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
 
   #Validations
-  validates :first_name, :last_name, presence: true       
+  validates :first_name, :last_name, :phone, presence: true       
 
   #custom methods
   def full_name

@@ -39,7 +39,7 @@ RSpec.configure do |config|
 
 
   config.before(:each) do
-    stub_const("SmsTool", FakeSMS)
+    stub_const("SmsTool", FakeSms)
   end
 
   # This option will default to `:apply_to_host_groups` in RSpec 4 (and will
