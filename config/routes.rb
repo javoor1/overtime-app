@@ -9,6 +9,6 @@ Rails.application.routes.draw do
   end
 
   resources :posts
-  devise_for :users, skip: [:registrations]
+  devise_for :users#, skip: [:registrations]
   root to: "static#homepage"
 end

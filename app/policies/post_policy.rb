@@ -17,7 +17,7 @@
   	admin_types.include?(user.type)
   end
 
-  # def post_approved?
-  # 	record.approved?
-  # end
+  def post_approved?
+  	record.approved?
+  end
  end
