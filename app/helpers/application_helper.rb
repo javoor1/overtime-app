@@ -1,4 +1,9 @@
 module ApplicationHelper
+	
+	def admin_types
+		["AdminUser"]	
+	end
+
 	def active?(path)
 		#Este método regresa el string "active", que es 
 		# lo que el tag de html necesita para funcionar
