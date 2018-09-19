@@ -6,6 +6,9 @@
     # return true if record.approved? && admin? || user_or_admin? && !record.approved?
   end
 
+  def approve?
+    admin?
+  end
 
   private
 
