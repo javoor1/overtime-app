@@ -41,7 +41,7 @@ gem 'pundit'
 gem 'puma'
 gem 'twilio-ruby'
 gem 'dotenv-rails', :groups => [:development, :test]
-gem 'kaminari'
+gem 'kaminari', '~> 0.17.0'
 
 
 
