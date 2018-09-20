@@ -16,6 +16,10 @@
   	record.user_id == user.id || admin?
   end
 
+  def owner_user?
+    record.user_id == user.id
+  end
+
   def admin?
   	admin_types.include?(user.type)
   end
