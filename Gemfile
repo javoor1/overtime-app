@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.6'
+
+gem 'rails'
 gem 'pg', '~> 0.15'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -23,14 +24,14 @@ group :development do
   gem 'spring'
 end
 
-gem 'devise', '~> 4.2'
-gem 'bootstrap-sass', '~> 3.3', '>= 3.3.6'
-gem "gritter", "1.2.0"
-gem "administrate", "~> 0.2.2"
+gem 'devise'
+gem 'bootstrap-sass'
+gem "gritter"
+gem "administrate"
 gem 'bourbon'
-gem 'pundit', '~> 1.1'
+gem 'pundit'
 gem 'puma', '~> 3.4'
-gem 'twilio-ruby', '~> 4.11', '>= 4.11.1'
+gem 'twilio-ruby'
 gem 'dotenv-rails', :groups => [:development, :test]
-gem 'kaminari', '~> 0.17.0'
+gem 'kaminari'
 gem 'rails_12factor'
