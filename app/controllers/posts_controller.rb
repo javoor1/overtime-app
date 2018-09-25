@@ -4,7 +4,7 @@ class PostsController < ApplicationController
 	
 	
 	def index
-		@posts = Post.posts_by(current_user).page(params[:page]).per(10)
+		@posts = Post.posts_by(current_user).page(params[:page]).per(10) #post_by es el scope definido en el model
 	end
 
 	def approve
