@@ -3,6 +3,11 @@ class User < ActiveRecord::Base
 	has_many :posts
   has_many :audit_logs
 
+  #Definimos la relación auto-referencial
+  # Es distinto de una red social donde la relación va en los dos sentidos
+  has_many :hands_associations, class_name: 'Hand'
+  has_many :hands, through: :hands_associations
+
 	#Authorization
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
