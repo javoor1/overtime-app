@@ -10,11 +10,11 @@ class PostDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     user: Field::BelongsTo.with_options(searchable: false),
     id: Field::Number.with_options(searchable: false),
-    date: Field::DateTime.with_options(searchable: true),
+    date: Field::DateTime.with_options(searchable: false),
     rationale: Field::Text.with_options(searchable: true),
-    status: Field::String.with_options(searchable: true),
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    created_at: Field::DateTime.with_options(searchable: false),
+    updated_at: Field::DateTime.with_options(searchable: false),
+    status: Field::Text.with_options(searchable: true),
   }.freeze
 
   # COLLECTION_ATTRIBUTES

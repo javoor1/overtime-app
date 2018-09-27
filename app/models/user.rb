@@ -15,9 +15,12 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
 
   #Validations
-  validates :first_name, :last_name, :phone, presence: true  
+  validates :first_name, :last_name, :phone, :ssn, :company, presence: true  
 
   validates :phone, length: { is: 10 }
+
+  validates :ssn, length: { is: 4 }
+  validates_numericality_of :ssn
 
   PHONE_REGEX = /\A[0-9]*\Z/
 
