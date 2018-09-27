@@ -11,8 +11,17 @@
 		
 		<%= render 'shared/employee_nav_items' if employee? %>		
 
-		<%= render 'shared/audit_log_tab' if admin? %>
-		
+		<%= render 'shared/audit_log_tab' if admin? %> 
+		<!-- ***********
+		El código de abajo, anterior al de arriba, usábamos los policies de AuditLog para mostrar o no elementos al usuario
+		creo que no es mala práctica entonces lo dejo comentado -->
+		<% if false %>
+			<%= render 'shared/audit_log_tab' if policy(AuditLog).index? %>
+		<% end %>
+		<!-- ***********
+		El código de abajo era el anterior en el que usábamos los policies de AuditLog para mostrar o no elementos al usuario
+		creo que no es mala práctica entonces lo dejo comentado -->
+
 		<li class="dropdown pull-right">
 			 <a href="#" data-toggle="dropdown" class="dropdown-toggle">Options<strong class="caret"></strong></a>
 			<ul class="dropdown-menu">
@@ -27,3 +36,4 @@
 	</ul>
 <% end %>
 <!-- TODO -->
+
